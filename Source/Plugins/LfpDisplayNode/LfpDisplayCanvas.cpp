@@ -1036,9 +1036,9 @@ LfpDisplayOptions::LfpDisplayOptions(LfpDisplayCanvas* canvas_, LfpTimescale* ti
     selectedOverlap = 4;
     selectedOverlapValue = overlaps[selectedOverlap-1];
 
-    saturationThresholds.add("0.5");
-    saturationThresholds.add("100");
-    saturationThresholds.add("1000");
+    saturationThresholds.add("2000");
+    saturationThresholds.add("3000");
+    saturationThresholds.add("4000");
     saturationThresholds.add("5000");
     saturationThresholds.add("6389");
     
@@ -1886,133 +1886,140 @@ int LfpDisplayOptions::getRangeStep(DataChannel::DataChannelTypes type)
 
 void LfpDisplayOptions::saveParameters(XmlElement* xml)
 {
-    // TODO: (kelly) add savers for:
-    //      - channel reverse
-    //      - channel zoom slider
-    //      - channel display skip
-    std::cout << "Saving lfp display params" << std::endl;
+	// TODO: add savers for:
+	//      - channel reverse
+	//      - channel zoom slider
+	//      - channel display skip
+	std::cout << "Saving lfp display params" << std::endl;
 
-    XmlElement* xmlNode = xml->createNewChildElement("LFPDISPLAY");
+	XmlElement* xmlNode = xml->createNewChildElement("LFPDISPLAY");
 
-    lfpDisplay->reactivateChannels();
+	lfpDisplay->reactivateChannels();
 
-    xmlNode->setAttribute("Range",selectedVoltageRangeValues[0]+","+selectedVoltageRangeValues[1]+
-        ","+selectedVoltageRangeValues[2]);
-    xmlNode->setAttribute("Timebase",timebaseSelection->getText());
-    xmlNode->setAttribute("Spread",spreadSelection->getText());
-    xmlNode->setAttribute("colorGrouping",colorGroupingSelection->getSelectedId());
-    xmlNode->setAttribute("isInverted",invertInputButton->getToggleState());
-    xmlNode->setAttribute("drawMethod",drawMethodButton->getToggleState());
+	xmlNode->setAttribute("Range", selectedVoltageRangeValues[0] + "," + selectedVoltageRangeValues[1] +
+		"," + selectedVoltageRangeValues[2]);
+	xmlNode->setAttribute("Timebase", timebaseSelection->getText());
+	xmlNode->setAttribute("Spread", spreadSelection->getText());
+	xmlNode->setAttribute("colorGrouping", colorGroupingSelection->getSelectedId());
+	xmlNode->setAttribute("isInverted", invertInputButton->getToggleState());
+	xmlNode->setAttribute("drawMethod", drawMethodButton->getToggleState());
+	xmlNode->setAttribute("medianOffset", medianOffsetPlottingButton->getToggleState());
+	xmlNode->setAttribute("saturationWarning", drawSaturateWarningButton->getToggleState());
+	xmlNode->setAttribute("clipWarning", drawClipWarningButton->getToggleState());
 
-    int eventButtonState = 0;
+	int eventButtonState = 0;
 
-    for (int i = 0; i < 8; i++)
-    {
-        if (lfpDisplay->eventDisplayEnabled[i])
-        {
-            eventButtonState += (1 << i);
-        }
-    }
+	for (int i = 0; i < 8; i++)
+	{
+		if (lfpDisplay->eventDisplayEnabled[i])
+		{
+			eventButtonState += (1 << i);
+		}
+	}
 
-    lfpDisplay->reactivateChannels();
+	lfpDisplay->reactivateChannels();
 
-    xmlNode->setAttribute("EventButtonState", eventButtonState);
+	xmlNode->setAttribute("EventButtonState", eventButtonState);
 
-    String channelDisplayState = "";
+	String channelDisplayState = "";
 
-    for (int i = 0; i < canvas->nChans; i++)
-    {
-        if (lfpDisplay->getEnabledState(i))
-        {
-            channelDisplayState += "1";
-        }
-        else
-        {
-            channelDisplayState += "0";
-        }
-        //std::cout << channelDisplayState;
-    }
+	for (int i = 0; i < canvas->nChans; i++)
+	{
+		if (lfpDisplay->getEnabledState(i))
+		{
+			channelDisplayState += "1";
+		}
+		else
+		{
+			channelDisplayState += "0";
+		}
+		//std::cout << channelDisplayState;
+	}
 
-    //std::cout << std::endl;
+	//std::cout << std::endl;
 
 
-    xmlNode->setAttribute("ChannelDisplayState", channelDisplayState);
+	xmlNode->setAttribute("ChannelDisplayState", channelDisplayState);
 
-    xmlNode->setAttribute("ScrollX",canvas->viewport->getViewPositionX());
-    xmlNode->setAttribute("ScrollY",canvas->viewport->getViewPositionY());
+	xmlNode->setAttribute("ScrollX", canvas->viewport->getViewPositionX());
+	xmlNode->setAttribute("ScrollY", canvas->viewport->getViewPositionY());
 }
 
 
 void LfpDisplayOptions::loadParameters(XmlElement* xml)
 {
-    // TODO: (kelly) add loaders for:
-    //      - channel reverse
-    //      - channel zoom slider
-    //      - channel display skip
-    forEachXmlChildElement(*xml, xmlNode)
-    {
-        if (xmlNode->hasTagName("LFPDISPLAY"))
-        {
-            StringArray ranges;
-            ranges.addTokens(xmlNode->getStringAttribute("Range"),",",String::empty);
-            selectedVoltageRangeValues[0] = ranges[0];
-            selectedVoltageRangeValues[1] = ranges[1];
-            selectedVoltageRangeValues[2] = ranges[2];
-            selectedVoltageRange[0] = voltageRanges[0].indexOf(ranges[0])+1;
-            selectedVoltageRange[1] = voltageRanges[1].indexOf(ranges[1])+1;
-            selectedVoltageRange[2] = voltageRanges[2].indexOf(ranges[2])+1;
-            rangeSelection->setText(ranges[0]);
+	// TODO: add loaders for:
+	//      - channel reverse
+	//      - channel zoom slider
+	//      - channel display skip
+	forEachXmlChildElement(*xml, xmlNode)
+	{
+		if (xmlNode->hasTagName("LFPDISPLAY"))
+		{
+			StringArray ranges;
+			ranges.addTokens(xmlNode->getStringAttribute("Range"), ",", String::empty);
+			selectedVoltageRangeValues[0] = ranges[0];
+			selectedVoltageRangeValues[1] = ranges[1];
+			selectedVoltageRangeValues[2] = ranges[2];
+			selectedVoltageRange[0] = voltageRanges[0].indexOf(ranges[0]) + 1;
+			selectedVoltageRange[1] = voltageRanges[1].indexOf(ranges[1]) + 1;
+			selectedVoltageRange[2] = voltageRanges[2].indexOf(ranges[2]) + 1;
+			rangeSelection->setText(ranges[0]);
 
-            timebaseSelection->setText(xmlNode->getStringAttribute("Timebase"));
-            spreadSelection->setText(xmlNode->getStringAttribute("Spread"));
-            if (xmlNode->hasAttribute("colorGrouping"))
-            {
-                colorGroupingSelection->setSelectedId(xmlNode->getIntAttribute("colorGrouping"));
-            }
-            else
-            {
-                colorGroupingSelection->setSelectedId(1);
-            }
+			timebaseSelection->setText(xmlNode->getStringAttribute("Timebase"));
+			spreadSelection->setText(xmlNode->getStringAttribute("Spread"));
+			if (xmlNode->hasAttribute("colorGrouping"))
+			{
+				colorGroupingSelection->setSelectedId(xmlNode->getIntAttribute("colorGrouping"));
+			}
+			else
+			{
+				colorGroupingSelection->setSelectedId(1);
+			}
 
-            invertInputButton->setToggleState(xmlNode->getBoolAttribute("isInverted", true), sendNotification);
+			invertInputButton->setToggleState(xmlNode->getBoolAttribute("isInverted", true), sendNotification);
 
-            drawMethodButton->setToggleState(xmlNode->getBoolAttribute("drawMethod", true), sendNotification);
+			drawMethodButton->setToggleState(xmlNode->getBoolAttribute("drawMethod", true), sendNotification);
+			medianOffsetPlottingButton->setToggleState(xmlNode->getBoolAttribute("medianOffset", true), sendNotification);
+			drawClipWarningButton->setToggleState(xmlNode->getBoolAttribute("clipWarning", false), sendNotification);
+			drawSaturateWarningButton->setToggleState(xmlNode->getBoolAttribute("saturationWarning", false), sendNotification);
 
-            canvas->viewport->setViewPosition(xmlNode->getIntAttribute("ScrollX"),
-                                      xmlNode->getIntAttribute("ScrollY"));
+			canvas->viewport->setViewPosition(xmlNode->getIntAttribute("ScrollX"),
+				xmlNode->getIntAttribute("ScrollY"));
 
-            int eventButtonState = xmlNode->getIntAttribute("EventButtonState");
+			int eventButtonState = xmlNode->getIntAttribute("EventButtonState");
 
-            for (int i = 0; i < 8; i++)
-            {
-                lfpDisplay->eventDisplayEnabled[i] = (eventButtonState >> i) & 1;
+			for (int i = 0; i < 8; i++)
+			{
+				lfpDisplay->eventDisplayEnabled[i] = (eventButtonState >> i) & 1;
 
-                eventDisplayInterfaces[i]->checkEnabledState();
-            }
+				eventDisplayInterfaces[i]->checkEnabledState();
+			}
 
-            String channelDisplayState = xmlNode->getStringAttribute("ChannelDisplayState");
+			String channelDisplayState = xmlNode->getStringAttribute("ChannelDisplayState");
 
-            for (int i = 0; i < channelDisplayState.length(); i++)
-            {
+			for (int i = 0; i < channelDisplayState.length(); i++)
+			{
 
-                if (channelDisplayState.substring(i,i+1).equalsIgnoreCase("1"))
-                {
-                    //std::cout << "LfpDisplayCanvas enabling channel " << i << std::endl;
-                    //lfpDisplay->enableChannel(true, i);
-                    canvas->isChannelEnabled.set(i,true); //lfpDisplay->enableChannel(true, i);
-                }
-                else
-                {
-                    //lfpDisplay->enableChannel(false, i);
-                    canvas->isChannelEnabled.set(i,false);
-                }
+				if (channelDisplayState.substring(i, i + 1).equalsIgnoreCase("1"))
+				{
+					//std::cout << "LfpDisplayCanvas enabling channel " << i << std::endl;
+					//lfpDisplay->enableChannel(true, i);
+					canvas->isChannelEnabled.set(i, true); //lfpDisplay->enableChannel(true, i);
+				}
+				else
+				{
+					//lfpDisplay->enableChannel(false, i);
+					canvas->isChannelEnabled.set(i, false);
+				}
 
 
-            }
-        }
-    }
+			}
+		}
+	}
 
 }
+
 
 
 #pragma mark - LfpTimescale -
