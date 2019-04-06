@@ -1044,7 +1044,7 @@ LfpDisplayOptions::LfpDisplayOptions(LfpDisplayCanvas* canvas_, LfpTimescale* ti
     
     selectedSaturation = 5;
     selectedSaturationValue = saturationThresholds[selectedSaturation-1];
-    
+	selectedSaturationValueFloat = selectedSaturationValue.getFloatValue();
     
     colorGroupings.add("1");
     colorGroupings.add("2");
