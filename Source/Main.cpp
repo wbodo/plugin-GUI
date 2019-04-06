@@ -67,9 +67,9 @@ public:
         //glWinInit();
 
         int consoleArg = parameters.indexOf("--console", true);
-        if (consoleArg != -1)
+        if (true)
         {
-            parameters.remove(consoleArg);
+            //parameters.remove(consoleArg);
             if (AllocConsole())
             {
                 freopen("CONOUT$","w",stdout);
