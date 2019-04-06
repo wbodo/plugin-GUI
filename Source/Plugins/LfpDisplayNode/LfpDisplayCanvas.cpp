@@ -32,7 +32,7 @@ using namespace LfpViewer;
 #pragma mark - LfpDisplayCanvas -
 
 LfpDisplayCanvas::LfpDisplayCanvas(LfpDisplayNode* processor_) :
-     timebase(1.0f), displayGain(1.0f),   timeOffset(0.0f),
+     timebase(2.0f), displayGain(1.0f),   timeOffset(0.0f),
     processor(processor_)
 {
 
