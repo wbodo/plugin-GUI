@@ -544,7 +544,7 @@ void ControlPanel::updateRecordEngineList()
 		recordEngines.add(info.creator());
 	}
 	if (selectedEngine < 1)
-		recordSelector->setSelectedId(1, sendNotification);
+		recordSelector->setSelectedId(2, sendNotification);
 	else
 		recordSelector->setSelectedId(selectedEngine, sendNotification);
 }
