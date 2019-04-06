@@ -167,39 +167,43 @@ void RecordNode::createNewDirectory()
 
 String RecordNode::generateDirectoryName()
 {
-    Time calendar = Time::getCurrentTime();
+	Time calendar = Time::getCurrentTime();
 
-    Array<int> t;
-    t.add(calendar.getYear());
-    t.add(calendar.getMonth()+1); // January = 0
-    t.add(calendar.getDayOfMonth());
-    t.add(calendar.getHours());
-    t.add(calendar.getMinutes());
-    t.add(calendar.getSeconds());
+	Array<int> t;
+	t.add(calendar.getYear());
+	t.add(calendar.getMonth() + 1); // January = 0
+	t.add(calendar.getDayOfMonth());
+	t.add(calendar.getHours());
+	t.add(calendar.getMinutes());
+	t.add(calendar.getSeconds());
 
-    String filename = AccessClass::getControlPanel()->getTextToPrepend();
+	String filename = AccessClass::getControlPanel()->getTextToPrepend();
 
-    String datestring = "";
+	String datestring = "";
 
-    for (int n = 0; n < t.size(); n++)
-    {
-        if (t[n] < 10)
-            datestring += "0";
+	for (int n = 0; n < t.size(); n++)
+	{
+		if (t[n] < 10)
+			datestring += "0";
 
-        datestring += t[n];
+		datestring += t[n];
 
-        if (n == 2)
-            datestring += "_";
-        else if (n < 5)
-            datestring += "-";
-    }
+		if (n == 2)
+			datestring += "_";
+		else if (n < 5)
+			datestring += "-";
+	}
 
-    AccessClass::getControlPanel()->setDateText(datestring);
+	AccessClass::getControlPanel()->setDateText(datestring);
 
-    filename += datestring;
-    filename += AccessClass::getControlPanel()->getTextToAppend();
+	if (filename.length() < 24)
+		filename += datestring;
+	else
+		filename = filename.substring(0, filename.length() - 1);
 
-    return filename;
+	filename += AccessClass::getControlPanel()->getTextToAppend();
+
+	return filename;
 
 }
 
