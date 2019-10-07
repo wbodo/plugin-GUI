@@ -48,11 +48,16 @@ enum colorIds
 	listFontLight = Font("Default Light", 25, Font::plain);
 	listFontPlain = Font("Default", 20, Font::plain);
 
-	setColour(PROCESSOR_COLOR, Colour(59, 59, 59));
-	setColour(FILTER_COLOR, Colour(0, 174, 239));
-	setColour(SINK_COLOR, Colour(0, 166, 81));
-	setColour(SOURCE_COLOR, Colour(241, 90, 41));
-	setColour(UTILITY_COLOR, Colour(147, 149, 152));
+	//setColour(PROCESSOR_COLOR, Colour(59, 59, 59));
+	//setColour(FILTER_COLOR, Colour(0, 174, 239));
+	//setColour(SINK_COLOR, Colour(0, 166, 81));
+	//setColour(SOURCE_COLOR, Colour(241, 90, 41));
+	//setColour(UTILITY_COLOR, Colour(147, 149, 152));
+	setColour(PROCESSOR_COLOR, Colours::darkgrey);
+	setColour(FILTER_COLOR, Colours::mediumpurple);
+	setColour(SINK_COLOR, Colours::lightgrey);
+	setColour(SOURCE_COLOR, Colours::lightgrey);
+	setColour(UTILITY_COLOR, Colours::mediumpurple);
 	ProcessorListItem* sources = new ProcessorListItem("Sources");
 	ProcessorListItem* filters = new ProcessorListItem("Filters");
 	ProcessorListItem* sinks = new ProcessorListItem("Sinks");

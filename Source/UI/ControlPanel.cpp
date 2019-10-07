@@ -123,7 +123,7 @@ void CPUMeter::paint(Graphics& g)
 {
     g.fillAll(Colours::grey);
 
-    g.setColour(Colours::yellow);
+    g.setColour(Colours::white);
     g.fillRect(0.0f,0.0f,getWidth()*cpu,float(getHeight()));
 
     g.setColour(Colours::black);
@@ -164,7 +164,7 @@ void DiskSpaceMeter::paint(Graphics& g)
 
     g.fillAll(Colours::grey);
 
-    g.setColour(Colours::lightgrey);
+    g.setColour(Colours::white);
     if (diskFree > 0)
         g.fillRect(0.0f,0.0f,getWidth()*diskFree,float(getHeight()));
 
@@ -204,7 +204,7 @@ void Clock::paint(Graphics& g)
     }
     else
     {
-        g.fillAll(Colour(58,58,58));
+        g.fillAll(Colours::mediumpurple);
     }
 
     drawTime(g);
@@ -606,13 +606,14 @@ void ControlPanel::createPaths()
 
 void ControlPanel::paint(Graphics& g)
 {
-    g.setColour (backgroundColour);
+    //g.setColour (backgroundColour);
+	g.setColour(Colours::mediumpurple);
     g.fillRect (0, 0, getWidth(), getHeight());
 
     if (open)
     {
         createPaths();
-        g.setColour(Colours::black);
+        g.setColour(Colours::grey);
         g.fillPath(p1);
         g.fillPath(p2);
     }

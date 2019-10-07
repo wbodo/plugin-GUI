@@ -25,6 +25,7 @@
 
 #include "FileReader.h"
 
+#include <iostream>
 #include <stdio.h>
 
 FileReaderEditor::FileReaderEditor (GenericProcessor* parentNode, bool useDefaultParameterEditors = true)
@@ -60,6 +61,14 @@ FileReaderEditor::FileReaderEditor (GenericProcessor* parentNode, bool useDefaul
     desiredWidth = 180;
 
     setEnabledState (false);
+
+	test_button = new UtilityButton("TEST", Font("Small Text", 13, Font::plain));
+	test_button->setRadius(8.0f); // sets the radius of the button's corners
+	test_button->setBounds(10, 70, 90, 20); // sets the x position, y position, width, and height of the button
+	test_button->addListener(this); // allows the editor to respond to clicks
+	test_button->setClickingTogglesState(true); // makes the button toggle its state when clicked
+	addAndMakeVisible(test_button); // makes the button a child component of the editor and makes it visible
+
 }
 
 
@@ -133,6 +142,10 @@ void FileReaderEditor::buttonEvent (Button* button)
                 // fileNameLabel->setText(fileToRead.getFileName(),false);
             }
         }
+		else if (button = test_button)
+		{
+			std::cout << "test button event" << std::endl;
+		}
     }
 }
 

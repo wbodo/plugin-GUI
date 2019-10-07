@@ -78,7 +78,7 @@ public:
 
 private:
     void clearEditor();
-
+	ScopedPointer<UtilityButton> test_button;
 
     ScopedPointer<UtilityButton>        fileButton;
     ScopedPointer<Label>                fileNameLabel;

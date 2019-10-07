@@ -46,12 +46,18 @@ EditorViewport::EditorViewport()
     //Typeface::Ptr typeface = new CustomTypeface(mis);
     font = Font("Small Text", 10, Font::plain);
     font.setHeight(10);
-
+	
     sourceDropImage = ImageCache::getFromMemory(BinaryData::SourceDrop_png,
                                                 BinaryData::SourceDrop_pngSize);
 
     sourceDropImage = sourceDropImage.rescaled(25, 135,
                                                Graphics::highResamplingQuality);
+	NovelaLogo = ImageCache::getFromMemory(BinaryData::SourceDrop_png,
+		BinaryData::SourceDrop_pngSize);
+
+	NovelaLogo = NovelaLogo.rescaled(25, 135,
+		Graphics::highResamplingQuality);
+
 
     signalChainManager = new SignalChainManager(this, editorArray,
                                                 signalChainArray);
@@ -154,7 +160,8 @@ void EditorViewport::paint(Graphics& g)
     //if (!editorArray[0]->getProcessor()->isSource())
     //    g.drawImageAt(sourceDropImage, x, y);
     //} else {
-    g.drawImageAt(sourceDropImage, x, y);
+    g.drawImageAt(NovelaLogo, x, y);
+	g.drawImageAt(sourceDropImage, x + 200, y);
     //}
 }
 

@@ -195,6 +195,7 @@ private:
 
     Font font;
     Image sourceDropImage;
+	Image NovelaLogo;
 
     int borderSize, tabSize, tabButtonSize;
 
