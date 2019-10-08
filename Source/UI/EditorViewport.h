@@ -195,6 +195,7 @@ private:
 
     Font font;
     Image sourceDropImage;
+	Image TestImage;
 
     int borderSize, tabSize, tabButtonSize;
 

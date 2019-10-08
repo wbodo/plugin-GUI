@@ -78,6 +78,9 @@ namespace BinaryData
     extern const char*   ArduinoIcon_png;
     const int            ArduinoIcon_pngSize = 56888;
 
+    extern const char*   TestowyGuzik_png;
+    const int            TestowyGuzik_pngSize = 1231;
+
     extern const char*   OpenEphysBoardLogoBlack_png;
     const int            OpenEphysBoardLogoBlack_pngSize = 36120;
 
@@ -198,6 +201,9 @@ namespace BinaryData
     extern const char*   MergerB02_png;
     const int            MergerB02_pngSize = 4832;
 
+    extern const char*   TestowyGuzik2_png;
+    const int            TestowyGuzik2_pngSize = 1231;
+
     extern const char*   PipelineA01_png;
     const int            PipelineA01_pngSize = 5396;
 
@@ -214,7 +220,7 @@ namespace BinaryData
     extern const char* namedResourceList[];
 
     // Number of elements in the namedResourceList array.
-    const int namedResourceListSize = 67;
+    const int namedResourceListSize = 69;
 
     // If you provide the name of one of the binary resource variables above, this function will
     // return the corresponding data and its size (or a null pointer if the name isn't found).

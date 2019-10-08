@@ -53,6 +53,12 @@ EditorViewport::EditorViewport()
     sourceDropImage = sourceDropImage.rescaled(25, 135,
                                                Graphics::highResamplingQuality);
 
+	TestImage = ImageCache::getFromMemory(BinaryData::TestowyGuzik2_png,
+		BinaryData::TestowyGuzik2_pngSize);
+
+	TestImage = TestImage.rescaled(225, 135,
+		Graphics::highResamplingQuality);
+
     signalChainManager = new SignalChainManager(this, editorArray,
                                                 signalChainArray);
 
@@ -155,6 +161,7 @@ void EditorViewport::paint(Graphics& g)
     //    g.drawImageAt(sourceDropImage, x, y);
     //} else {
     g.drawImageAt(sourceDropImage, x, y);
+	g.drawImageAt(TestImage, x+300, y);
     //}
 }
 
